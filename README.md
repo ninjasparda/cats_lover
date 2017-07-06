@@ -1,7 +1,7 @@
-cats_lover
+pets_lover
 =====================
 
-Organize sorted cats list by gender
+Organize sorted pets list by gender
 
 Node and Yarn is required
 
@@ -27,4 +27,12 @@ npm start
 
 ```
 npm run test
+```
+
+
+### API List
+```
+fetchData(url)
+organizePetsByGenderAndType(peoples, myInterestPet)
+printPets(pets)
 ```
