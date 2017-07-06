@@ -2,11 +2,10 @@ require('es6-promise').polyfill();
 import 'isomorphic-fetch';
 
 const _ = require('lodash');
-const dataURL = 'http://agl-developer-test.azurewebsites.net/people.json';
-const myInterestPet = 'Cat';
 
-const fetchData = () => {
-    return fetch(dataURL)
+
+const fetchData = url => {
+    return fetch(url)
         .then((response) => {
             if (response.status >= 400) {
                 throw new Error("Bad response from server");
@@ -15,39 +14,39 @@ const fetchData = () => {
         });
 };
 
-const organizeCatsByGender = (cats) => {
-    //re-organize cats data close to end result structure
+const organizePetsByGenderAndType = (peoples, myInterestPet) => {
+    //re-organize pets data close to end result structure
     //{Male:['name1','name2], Female:['name1','name2']
-    let organizedCats = _.reduce(cats, (result, cat) => {
-        _.filter(cat.pets, pet => pet.type === myInterestPet).forEach(pet => {
-            result[cat.gender] = result[cat.gender] || [];
-            result[cat.gender].push(pet.name);
+    let organizedPets = _.reduce(peoples, (result, people) => {
+        _.filter(people.pets, pet => pet.type === myInterestPet).forEach(pet => {
+            result[people.gender] = result[people.gender] || [];
+            result[people.gender].push(pet.name);
         });
         return result;
     }, {});
 
-    //order cats in male/female group
-    _.forOwn(organizedCats, (cats) => {
-        cats.sort((a, b) => a !== b ? a < b ? -1 : 1 : 0);
+    //order pets in male/female group
+    _.forOwn(organizedPets, pets => {
+        pets.sort((a, b) => a !== b ? a < b ? -1 : 1 : 0);
     });
 
-    return organizedCats;
+    return organizedPets;
 
 };
 
-const printCats = cats => {
-    let catsOutput = '';
-    _.forOwn(cats, (value, key) => {
-        catsOutput += `****    ${key}\n`;
-        catsOutput += `****       ${value}\n`;
+const printPets = pets => {
+    let petsOutput = '';
+    _.forOwn(pets, (value, key) => {
+        petsOutput += `****    ${key}\n`;
+        petsOutput += `****       ${value}\n`;
     });
-    return catsOutput;
+    return petsOutput;
 };
 
 export {
     fetchData,
-    organizeCatsByGender,
-    printCats
+    organizePetsByGenderAndType,
+    printPets
 };
 
 

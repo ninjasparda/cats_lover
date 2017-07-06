@@ -1,7 +1,9 @@
 const service = require("./service");
+const dataURL = 'http://agl-developer-test.azurewebsites.net/people.json';
+const myInterestPet = 'Cat';
 
-service.fetchData().then(function(people){
-    var cats = service.organizeCatsByGender(people);
-    var catsOutput = service.printCats(cats);
-    console.log(catsOutput);
+service.fetchData(dataURL).then(peoples => {
+    let organizedPets = service.organizePetsByGenderAndType(peoples, myInterestPet);
+    let petsOutput = service.printPets(organizedPets);
+    console.log(petsOutput);
 });
